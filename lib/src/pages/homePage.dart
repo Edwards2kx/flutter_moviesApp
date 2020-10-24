@@ -21,7 +21,8 @@ class HomePage extends StatelessWidget {
           actions: [
             IconButton(
               icon: Icon(Icons.search),
-              onPressed: () {},
+              onPressed: () {
+              },
             )
           ],
         ),
@@ -68,7 +69,6 @@ class HomePage extends StatelessWidget {
           stream: moviesProvider.popularStream,
           builder: (BuildContext context, AsyncSnapshot<List<Movie>> snapshot) {
             if (snapshot.hasData) {
- 
               return HorizontalCardArray(
                   movies: snapshot.data, nextPage: moviesProvider.getPopular);
             } else

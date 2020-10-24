@@ -143,7 +143,6 @@ class InfoMovie extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  print('${actors[i].name} , ${actors[i].character} , ${actors[i].id}');
                   Navigator.pushNamed(context, ActorPage.id , arguments: actors[i]);
                 },
                 child: ClipRRect(
