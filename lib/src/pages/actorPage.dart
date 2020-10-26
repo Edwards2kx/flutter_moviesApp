@@ -50,7 +50,7 @@ class ActorPage extends StatelessWidget {
 
   Widget _heroActor(BuildContext context, Actor actor) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0 ),
+      padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
       height: 250.0,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +77,7 @@ class ActorPage extends StatelessWidget {
       Text(_actor.gender == 1 ? 'Gender: Female' : 'Gender: Male',
           style: _infoText),
       Text('Rol: ${_actor.knownForDepartment}', style: _infoText),
-      Text('Born in: ${_actor.placeOfBirth}', style: _infoText),
+      Text('Born in: ${_actor.placeOfBirth}', style: _infoText , overflow: TextOverflow.ellipsis,),
       Text('BirthDay: ${_actor.birthday}', style: _infoText),
 //      Text( ' '),
       Text(_actor.deathday == null ? ' ' : 'DeathDay: ${_actor.deathday}',

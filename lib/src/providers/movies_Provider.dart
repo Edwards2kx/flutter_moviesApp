@@ -70,6 +70,23 @@ class MoviesProvider {
     
   }
 
+Future<List<Movie>> searchMovie(String _query) async {
+
+//    _playingNowPage++;
+
+    String _endPoint = '3/search/movie';
+    final url = Uri.https(_url, _endPoint, {
+      'api_key': _apiKey,
+      'language': _language,
+      'query': _query
+    });
+
+    return await _requestToApi(url);
+
+  }
+
+
+
   Future<List<Movie>> _requestToApi(Uri url) async {
     final _response = await http.get(url);
     if (_response.statusCode == 200) {
@@ -81,43 +98,6 @@ class MoviesProvider {
       return [];
     }
   }
-
-
-  // Future<List<Actor>> getCast( int id) async {
-  //   String _endPoint = '3/movie/$id/credits';
-  //   final url = Uri.https(_url, _endPoint, {
-  //     'api_key': _apiKey,
-  //   });
-
-  //   final _response = await http.get(url);
-  //   if (_response.statusCode == 200) {
-  //     final _data = json.decode(_response.body);
-  //     final _casting = Cast.fromJsonList(_data['cast']);
-  //     return _casting.actors;
-  //   } else {
-  //     print('error in request of: $url');
-  //     return [];
-  //   }
-  // }
-
-  // Future<List<Actor>> getActor( int personId) async {
-  //   String _endPoint = '3/person/$personId';
-  //   final url = Uri.https(_url, _endPoint, {
-  //     'api_key': _apiKey,
-  //   });
-
-  //   final _response = await http.get(url);
-  //   if (_response.statusCode == 200) {
-  //     print('respuesta del actor ocurrio');
-  //     final _data = json.decode(_response.body);
-  //     final _casting = Cast.fromJsonList(_data['cast']);
-  //     return _casting.actors;
-  //   } else {
-  //     print('error in request of: $url');
-  //     return [];
-  //   }
-  // }
-
 
 
 }

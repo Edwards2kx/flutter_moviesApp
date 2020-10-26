@@ -60,6 +60,8 @@ class Movie {
       voteCount = json['vote_count'];
       video = json['video'];
       voteAverage = json['vote_average'] / 1;
+
+      uniqueId = id.toString();
     } catch (e) {
       print('error while parsing data on movie.fromJson');
     }

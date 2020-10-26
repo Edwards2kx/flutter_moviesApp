@@ -5,7 +5,6 @@ import 'package:porfolio_movies_app/src/models/castingModel.dart';
 import 'package:porfolio_movies_app/src/models/moviesModel.dart';
 import 'package:porfolio_movies_app/src/pages/actorPage.dart';
 import 'package:porfolio_movies_app/src/providers/actors_Provider.dart';
-import 'package:porfolio_movies_app/src/providers/movies_Provider.dart';
 
 class InfoMovie extends StatelessWidget {
   static String id = 'infoMovie';
@@ -57,15 +56,20 @@ class InfoMovie extends StatelessWidget {
       child: Row(
         children: [
           Hero(
-            tag: movie.uniqueId,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: Image.network(
-                movie.getPosterImage(),
-                height: 150.0,
+              tag: movie.uniqueId,
+              child: GestureDetector(
+                onTap: () { 
+                  print('id: ${movie.id}');
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: Image.network(
+                    movie.getPosterImage(),
+                    height: 150.0,
+                  ),
+                ),
               ),
             ),
-          ),
           SizedBox(
             width: 10.0,
           ),
