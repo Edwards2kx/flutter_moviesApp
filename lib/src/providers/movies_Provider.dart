@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:porfolio_movies_app/src/models/castingModel.dart';
 import 'package:porfolio_movies_app/src/models/moviesModel.dart';
 
 class MoviesProvider {

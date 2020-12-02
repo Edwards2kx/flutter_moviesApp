@@ -42,7 +42,21 @@ class Actor {
       this.id,
       this.name,
       this.order,
-      this.profilePath});
+      this.profilePath,
+      this.birthday,
+      this.knownForDepartment,
+      this.deathday,
+      this.alsoKnownAs,
+      this.biography,
+      this.popularity,
+      this.placeOfBirth,
+      this.adult,
+      this.imdbId,
+      this.homepage
+
+      });
+
+      
 
   Actor.fromJson(Map<String, dynamic> json) {
     castId = json['cast_id'];
@@ -81,3 +95,5 @@ class Actor {
     }
   }
 }
+
+

@@ -8,10 +8,12 @@ class ActorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ActorsProvider actorsProvider = ActorsProvider();
-    final Actor actor = ModalRoute.of(context).settings.arguments;
+    Actor actor = ModalRoute.of(context).settings.arguments;
+    if (actor == null) {
+      actor = ActorsProvider.dummyActor;
+    }
 
     return Scaffold(
-      appBar: AppBar(),
       body: FutureBuilder(
           future: actorsProvider.getActor(actor.id),
           builder: (BuildContext context, AsyncSnapshot<Actor> snapshot) {
@@ -19,12 +21,14 @@ class ActorPage extends StatelessWidget {
               final Actor _actor = snapshot.data;
               return CustomScrollView(
                 slivers: [
+                  _sliverAppBar(actor),
                   SliverList(
                     delegate: SliverChildListDelegate(
                       [
-                        _heroActor(context, _actor),
-                        _actorBio(context, _actor.biography),
-                        //CarouselSlider
+                        //_heroActor(context, _actor),
+                        _actorBio(context, _actor),
+                        Text(
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
                       ],
                     ),
                   )
@@ -36,17 +40,27 @@ class ActorPage extends StatelessWidget {
           }),
     );
   }
-//         body: CustomScrollView(
-//       slivers: [
-//         SliverList(
-//           delegate: SliverChildListDelegate([
-//             _heroActor(context, actor.id, actorsProvider),
-// //            _heroBio(context)
-//           ]),
-//         )
-//       ],
-//     ));
-//   }
+
+  SliverAppBar _sliverAppBar(Actor actor) {
+    return SliverAppBar(
+      elevation: 2.0,
+      centerTitle: true,
+      floating: false,
+      pinned: true,
+      expandedHeight: 400.0,
+      flexibleSpace: FlexibleSpaceBar(
+        title: Text(actor.name),
+        centerTitle: true,
+        background: FadeInImage(
+          fadeInDuration: Duration(milliseconds: 150),
+          alignment: Alignment.center,
+          fit: BoxFit.cover,
+          placeholder: AssetImage('assets/loading.gif'),
+          image: NetworkImage(actor.getProfileImage()),
+        ),
+      ),
+    );
+  }
 
   Widget _heroActor(BuildContext context, Actor actor) {
     return Container(
@@ -77,7 +91,11 @@ class ActorPage extends StatelessWidget {
       Text(_actor.gender == 1 ? 'Gender: Female' : 'Gender: Male',
           style: _infoText),
       Text('Rol: ${_actor.knownForDepartment}', style: _infoText),
-      Text('Born in: ${_actor.placeOfBirth}', style: _infoText , overflow: TextOverflow.ellipsis,),
+      Text(
+        'Born in: ${_actor.placeOfBirth}',
+        style: _infoText,
+        overflow: TextOverflow.ellipsis,
+      ),
       Text('BirthDay: ${_actor.birthday}', style: _infoText),
 //      Text( ' '),
       Text(_actor.deathday == null ? ' ' : 'DeathDay: ${_actor.deathday}',
@@ -86,12 +104,76 @@ class ActorPage extends StatelessWidget {
     ]);
   }
 
-  Widget _actorBio(BuildContext context, String bio) {
+  Widget _actorBio(BuildContext context, Actor actor) {
+    SizedBox separatorWidget = SizedBox(height: 5.0);
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
-      child: Text(bio,
-          textAlign: TextAlign.justify,
-          style: Theme.of(context).textTheme.subtitle1),
+      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Biography', style: Theme.of(context).textTheme.headline5),
+          separatorWidget,
+          Text(actor.biography,
+              textAlign: TextAlign.justify,
+              style: Theme.of(context).textTheme.subtitle1),
+          separatorWidget,
+          Text('Personal Info', style: Theme.of(context).textTheme.headline6),
+          separatorWidget,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: actorInfoCard(actor, context),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget actorInfoCard(Actor _actor, BuildContext context) {
+    final TextStyle _infoText = Theme.of(context).textTheme.subtitle1;
+    final _width = MediaQuery.of(context).size.width;
+
+    Widget _myColumn(String title, String info) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          Text(
+            info,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          SizedBox(height: 15.0),
+          //Divider(height: 2.0),
+          Container(
+            color: Colors.black12,
+            //margin: EdgeInsets.symmetric(horizontal:10.0),
+            height: 1.0,
+          ),
+          SizedBox(height: 15.0),
+        ],
+      );
+    }
+
+    return Card(
+      child: Container(
+        width: _width,
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _myColumn('Gender', _actor.gender == 1 ? 'Female' : 'Male'),
+            _myColumn('Born in', _actor.placeOfBirth),
+            _myColumn('Birthday', _actor.birthday),
+            if (_actor.deathday != null)
+              _myColumn('Deathday', _actor.deathday),
+
+            //Text('Rol: ${_actor.knownForDepartment}', style: _infoText),
+            _myColumn('Known for', _actor.knownForDepartment),
+          ],
+        ),
+      ),
     );
   }
 }

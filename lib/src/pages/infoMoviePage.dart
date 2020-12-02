@@ -1,4 +1,3 @@
-import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:porfolio_movies_app/src/models/castingModel.dart';
